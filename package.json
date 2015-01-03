@@ -1,0 +1,27 @@
+{
+  "name": "boardjs",
+  "version": "0.0.0",
+  "description": "Create boards for things!",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm run build",
+    "test": "node_modules/karma/bin/karma start test/karma.conf.js",
+    "build": "node_modules/.bin/gulp build",
+    "dev": "node_modules/.bin/gulp dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:brianium/boardjs.git"
+  },
+  "devDependencies": {
+    "browserify": "^8.0.3",
+    "del": "^0.1.3",
+    "gulp": "^3.8.10",
+    "gulp-util": "^3.0.1",
+    "jasmine-core": "^2.1.3",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.3",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "vinyl-source-stream": "^1.0.0"
+  }
+}
