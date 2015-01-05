@@ -23,6 +23,15 @@ describe('Tile', function() {
         this.tile.element.dispatchEvent(this.evt);
         expect(this.tile.element.style.color).toBe('red');
       });
+
+      it('should allow non dom events', function() {
+        var val = null;
+        this.tile.on('custom', function(v) {
+          val = v;
+        });
+        this.tile.emit('custom', 'hello');
+        expect(val).toBe('hello');
+      });
     });
 
     describe('.off()', function() {
@@ -31,7 +40,15 @@ describe('Tile', function() {
         this.tile.off('click', this.click);
         this.tile.element.dispatchEvent(this.evt);
         expect(this.tile.element.style.color).toBe('');
+      });      
+      
+      it('should allow non dom events', function() {
+        var listener = function() { };
+        this.tile.on('custom', listener);
+        this.tile.off('custom', listener);
+        expect(this.tile.listeners('custom').length).toBe(0);
       });
+
     });
 
   });
