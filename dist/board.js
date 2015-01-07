@@ -1,9 +1,110 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Board = window.Board = {};
+var Boards = {};
 
-Board.Tile = require('./tile');
+Boards.Board = require('./board');
+Boards.Tile = require('./tile');
+Boards.Element = require('./element');
+Boards.util = require('./util');
 
-},{"./tile":3}],2:[function(require,module,exports){
+window.Boards = Boards;
+
+},{"./board":3,"./element":4,"./tile":6,"./util":7}],2:[function(require,module,exports){
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
+var events = require('./events');
+
+/**
+ * Represents a single tile on the board.
+ * @constructor
+ * @param {HTMLElement} element - the dom element of the tile
+ */
+function Tile(element) {
+  this.element = element;
+}
+
+util.inherits(Tile, EventEmitter);
+
+/**
+ * Simple event delegation to the Tile element's addEventListener method. If
+ * the given type is not a standard dom event, it will be registered as a 
+ * custom event on the Tile itself.
+ *
+ * @param {String} type - the event type
+ * @param {Function} listener - a function to execute when the event is triggered
+ * @param {Boolean} useCapture - prevent bubble when set to true - only valid for event callbacks
+ */
+Tile.prototype.on = function(type, listener, useCapture) {
+  if (!events.isDomEvent(type)) {
+    return EventEmitter.prototype.on.call(this, type, listener);
+  }
+
+  useCapture || (useCapture = false);
+  this.element.addEventListener(type, listener, useCapture);
+  return this;
+};
+
+/**
+ * Simple event delegation to the tile element's removeEventListener method.
+ *
+ * @param {String} type - the event type
+ * @param {Function} listener - the listener to remove
+ * @param {Boolean} useCapture - if the original listener was set to use capture or not
+ */
+Tile.prototype.off = function(type, listener, useCapture) {
+  if (!events.isDomEvent(type)) {
+    return EventEmitter.prototype.removeListener.call(this, type, listener);
+  }
+
+  useCapture || (useCapture = false);
+  this.element.removeEventListener(type, listener, useCapture);
+};
+
+module.exports = Tile;
+
+},{"./events":5,"events":8,"util":12}],3:[function(require,module,exports){
+var Tile = require('./Tile');
+
+/**
+ * Create a matrix of tiles.
+ * @param {Number} rows - number of rows in the matrix
+ * @param {Number} cols - number of columns in the matrix
+ * @return {Array}
+ */
+var createMatrix = function(rows, cols) {
+  var matrix = [];
+  for(var i = 0; i < rows; i++) {
+    var row = [];
+    for(var j = 0; j < cols; j++) {
+      row.push(new Tile(document.createElement('DIV')));
+    }
+    matrix.push(row);
+  }
+  return matrix;
+};
+
+/**
+ * Represents the board as a whole.
+ * @constructor
+ * @param {Number} rows - rows on the board
+ * @param {Number} cols - columns on the board
+ */
+function Board(rows, cols) {
+  this.element = document.createElement('div');
+  this.tiles = createMatrix(rows, cols);
+}
+
+module.exports = Board;
+
+},{"./Tile":2}],4:[function(require,module,exports){
+var Element = {
+  addClass: function(cls) {
+    this.element.classList.add(cls);
+  }
+};
+
+module.exports = Element;
+
+},{}],5:[function(require,module,exports){
 var standardDomEvents = [
   'abort',
   'afterprint',
@@ -139,60 +240,31 @@ module.exports.isDomEvent = function(type) {
   return pattern.test(type);
 };
 
-},{}],3:[function(require,module,exports){
-var EventEmitter = require('events').EventEmitter;
-var util = require('util');
-var events = require('./events');
+},{}],6:[function(require,module,exports){
+arguments[4][2][0].apply(exports,arguments)
+},{"./events":5,"dup":2,"events":8,"util":12}],7:[function(require,module,exports){
+var util = {};
 
 /**
- * Represents a single tile on the board.
- * @constructor
- * @param {HTMLElement} element - the dom element of the tile
- */
-function Tile(element) {
-  this.element = element;
-}
-
-util.inherits(Tile, EventEmitter);
-
-/**
- * Simple event delegation to the Tile element's addEventListener method. If
- * the given type is not a standard dom event, it will be registered as a 
- * custom event on the Tile itself.
+ * Mix src into dest.
  *
- * @param {String} type - the event type
- * @param {Function} listener - a function to execute when the event is triggered
- * @param {Boolean} useCapture - prevent bubble when set to true - only valid for event callbacks
+ * @param {Object} dest - the destination to copy to
+ * @param {Object} src - the object to mix in to dest
+ * @return {Object}
  */
-Tile.prototype.on = function(type, listener, useCapture) {
-  if (!events.isDomEvent(type)) {
-    return EventEmitter.prototype.on.call(this, type, listener);
+util.mixin = function(dest, src) {
+  var k;
+  for (k in src) {
+    if (src.hasOwnProperty(k)) {
+      dest[k] = src[k];
+    }
   }
-
-  useCapture || (useCapture = false);
-  this.element.addEventListener(type, listener, useCapture);
-  return this;
+  return dest;
 };
 
-/**
- * Simple event delegation to the tile element's removeEventListener method.
- *
- * @param {String} type - the event type
- * @param {Function} listener - the listener to remove
- * @param {Boolean} useCapture - if the original listener was set to use capture or not
- */
-Tile.prototype.off = function(type, listener, useCapture) {
-  if (!events.isDomEvent(type)) {
-    return EventEmitter.prototype.removeListener.call(this, type, listener);
-  }
+module.exports = util;
 
-  useCapture || (useCapture = false);
-  this.element.removeEventListener(type, listener, useCapture);
-};
-
-module.exports = Tile;
-
-},{"./events":2,"events":4,"util":8}],4:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -495,7 +567,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -520,7 +592,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],6:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -608,14 +680,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],7:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1205,4 +1277,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":7,"_process":6,"inherits":5}]},{},[1]);
+},{"./support/isBuffer":11,"_process":10,"inherits":9}]},{},[1]);

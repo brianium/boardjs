@@ -1,4 +1,4 @@
-var Tile = Board.Tile;
+var Tile = Boards.Tile;
 
 describe('Tile', function() {
   beforeEach(function() {
