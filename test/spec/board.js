@@ -29,11 +29,11 @@ describe('Board', function() {
 
       board.appendTo(target);
 
-      var rows = target.getElementsByClassName('tile-row');
+      var rows = target.getElementsByClassName(board.options.rowClass);
       expect(rows.length).toBe(2);
 
       for(var i = 0; i < rows.length; i++) {
-        var tiles = rows[i].getElementsByClassName('tile');
+        var tiles = rows[i].getElementsByClassName(board.options.tileClass);
         expect(tiles.length).toBe(3);
       }
     });
