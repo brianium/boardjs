@@ -6,11 +6,10 @@ var Boards = {};
 Boards.Board = require('./board');
 Boards.Tile = require('./tile');
 Boards.ElementContainer = require('./element-container');
-Boards.util = require('./util');
 
 window.Boards = Boards;
 
-},{"./board":2,"./element-container":3,"./tile":5,"./util":6}],2:[function(require,module,exports){
+},{"./board":2,"./element-container":3,"./tile":5}],2:[function(require,module,exports){
 'use strict';
 
 var Tile = require('./tile');
@@ -50,7 +49,7 @@ util.inherits(Board, ElementContainer);
 
 module.exports = Board;
 
-},{"./element-container":3,"./tile":5,"util":11}],3:[function(require,module,exports){
+},{"./element-container":3,"./tile":5,"util":10}],3:[function(require,module,exports){
 'use strict';
 
 var EventEmitter = require('events').EventEmitter;
@@ -158,7 +157,7 @@ ElementContainer.prototype.on = function(type, listener, useCapture) {
 };
 
 /**
- * Simple event delegation to the tile element's removeEventListener method.
+ * Simple event delegation to the element's removeEventListener method.
  *
  * @param {String} type - the event type
  * @param {Function} listener - the listener to remove
@@ -174,7 +173,7 @@ ElementContainer.prototype.off = function(type, listener, useCapture) {
 
 module.exports = ElementContainer;
 
-},{"./events":4,"events":7,"util":11}],4:[function(require,module,exports){
+},{"./events":4,"events":6,"util":10}],4:[function(require,module,exports){
 'use strict';
 
 var standardDomEvents = [
@@ -331,31 +330,7 @@ util.inherits(Tile, ElementContainer);
 
 module.exports = Tile;
 
-},{"./element-container":3,"util":11}],6:[function(require,module,exports){
-'use strict';
-
-var util = {};
-
-/**
- * Mix src into dest.
- *
- * @param {Object} dest - the destination to copy to
- * @param {Object} src - the object to mix in to dest
- * @return {Object}
- */
-util.mixin = function(dest, src) {
-  var k;
-  for (k in src) {
-    if (src.hasOwnProperty(k)) {
-      dest[k] = src[k];
-    }
-  }
-  return dest;
-};
-
-module.exports = util;
-
-},{}],7:[function(require,module,exports){
+},{"./element-container":3,"util":10}],6:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -658,7 +633,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -746,7 +721,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -771,14 +746,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1368,4 +1343,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":10,"_process":8,"inherits":9}]},{},[1]);
+},{"./support/isBuffer":9,"_process":7,"inherits":8}]},{},[1]);
