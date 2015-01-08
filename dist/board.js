@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
 var Boards = {};
 
 Boards.Board = require('./board');
@@ -9,6 +11,8 @@ Boards.util = require('./util');
 window.Boards = Boards;
 
 },{"./board":3,"./element":4,"./tile":6,"./util":7}],2:[function(require,module,exports){
+'use strict';
+
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var events = require('./events');
@@ -38,8 +42,7 @@ Tile.prototype.on = function(type, listener, useCapture) {
     return EventEmitter.prototype.on.call(this, type, listener);
   }
 
-  useCapture || (useCapture = false);
-  this.element.addEventListener(type, listener, useCapture);
+  this.element.addEventListener(type, listener, !!useCapture);
   return this;
 };
 
@@ -55,13 +58,14 @@ Tile.prototype.off = function(type, listener, useCapture) {
     return EventEmitter.prototype.removeListener.call(this, type, listener);
   }
 
-  useCapture || (useCapture = false);
-  this.element.removeEventListener(type, listener, useCapture);
+  this.element.removeEventListener(type, listener, !!useCapture);
 };
 
 module.exports = Tile;
 
 },{"./events":5,"events":8,"util":12}],3:[function(require,module,exports){
+'use strict';
+
 var Tile = require('./Tile');
 
 /**
@@ -96,15 +100,19 @@ function Board(rows, cols) {
 module.exports = Board;
 
 },{"./Tile":2}],4:[function(require,module,exports){
-var Element = {
+'use strict';
+
+var ElementMixin = {
   addClass: function(cls) {
     this.element.classList.add(cls);
   }
 };
 
-module.exports = Element;
+module.exports = ElementMixin;
 
 },{}],5:[function(require,module,exports){
+'use strict';
+
 var standardDomEvents = [
   'abort',
   'afterprint',
@@ -243,6 +251,8 @@ module.exports.isDomEvent = function(type) {
 },{}],6:[function(require,module,exports){
 arguments[4][2][0].apply(exports,arguments)
 },{"./events":5,"dup":2,"events":8,"util":12}],7:[function(require,module,exports){
+'use strict';
+
 var util = {};
 
 /**
