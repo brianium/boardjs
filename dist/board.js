@@ -14,6 +14,8 @@ window.Boards = Boards;
 'use strict';
 
 var Tile = require('./tile');
+var boardsUtil = require('./util');
+var elementMixin = require('./element');
 
 /**
  * Create a matrix of tiles.
@@ -44,9 +46,11 @@ function Board(rows, cols) {
   this.tiles = createMatrix(rows, cols);
 }
 
+Board.prototype = boardsUtil.mixin(Board.prototype, elementMixin);
+
 module.exports = Board;
 
-},{"./tile":5}],3:[function(require,module,exports){
+},{"./element":3,"./tile":5,"./util":6}],3:[function(require,module,exports){
 'use strict';
 
 /**
@@ -267,6 +271,8 @@ module.exports.isDomEvent = function(type) {
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var events = require('./events');
+var boardsUtil = require('./util');
+var elementMixin = require('./element');
 
 /**
  * Represents a single tile on the board.
@@ -278,6 +284,7 @@ function Tile(element) {
 }
 
 util.inherits(Tile, EventEmitter);
+Tile.prototype = boardsUtil.mixin(Tile.prototype, elementMixin);
 
 /**
  * Simple event delegation to the Tile element's addEventListener method. If
@@ -314,7 +321,7 @@ Tile.prototype.off = function(type, listener, useCapture) {
 
 module.exports = Tile;
 
-},{"./events":4,"events":7,"util":11}],6:[function(require,module,exports){
+},{"./element":3,"./events":4,"./util":6,"events":7,"util":11}],6:[function(require,module,exports){
 'use strict';
 
 var util = {};

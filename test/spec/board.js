@@ -15,4 +15,10 @@ describe('Board', function() {
       expect(board.tiles[1][1]).not.toBeUndefined();
     });
   });
+
+  it('should have element mixin behavior', function() {
+    var board = new Board(1,1);
+    board.attr('id', 'board');
+    expect(board.attr('id')).toBe('board');
+  });
 });

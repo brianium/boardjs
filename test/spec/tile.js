@@ -52,4 +52,9 @@ describe('Tile', function() {
     });
 
   });
+
+  it('should have element mixin behavior', function() {
+    this.tile.addClass('tile');
+    expect(this.tile.hasClass('tile')).toBe(true);
+  });
 });
