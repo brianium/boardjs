@@ -49,16 +49,32 @@ function Board(rows, cols) {
 
 util.inherits(Board, ElementContainer);
 
-Board.prototype.appendTo = function(elem) {
-  for(var i = 0; i < this.rows; i++) {
+/**
+ * Create a row element to hold tile elements.
+ * @return {HTMLElement}
+ */
+function createBoardRow() {
     var row = document.createElement('div');
     row.classList.add('tile-row');
+    return row;
+}
+
+/**
+ * Append the board element to the target element.
+ *
+ * @param {HTMLElement} elem - the element to append to
+ * @return {Board}
+ */
+Board.prototype.appendTo = function(elem) {
+  for(var i = 0; i < this.rows; i++) {
+    var row = createBoardRow();
     for (var j = 0; j < this.cols; j++) {
-      row.appendChild(this.tiles[i][j].addClass('tile').element);
+      this.tiles[i][j].addClass('tile').appendTo(row);
     }
     this.element.appendChild(row);
   }
   elem.appendChild(this.element);
+  return this;
 };
 
 module.exports = Board;
@@ -183,6 +199,16 @@ ElementContainer.prototype.off = function(type, listener, useCapture) {
   }
 
   this.element.removeEventListener(type, listener, !!useCapture);
+};
+
+/**
+ * Append the underlying element to the target element
+ * @param {HTMLElement} element - the element to append to
+ * @return {ElementContainer}
+ */
+ElementContainer.prototype.appendTo = function(element) {
+  element.appendChild(this.element);
+  return this;
 };
 
 module.exports = ElementContainer;
