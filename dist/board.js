@@ -5,17 +5,17 @@ var Boards = {};
 
 Boards.Board = require('./board');
 Boards.Tile = require('./tile');
-Boards.ElementContainer = require('./element');
+Boards.ElementContainer = require('./element-container');
 Boards.util = require('./util');
 
 window.Boards = Boards;
 
-},{"./board":2,"./element":3,"./tile":5,"./util":6}],2:[function(require,module,exports){
+},{"./board":2,"./element-container":3,"./tile":5,"./util":6}],2:[function(require,module,exports){
 'use strict';
 
 var Tile = require('./tile');
 var util = require('util');
-var ElementContainer = require('./element');
+var ElementContainer = require('./element-container');
 
 /**
  * Create a matrix of tiles.
@@ -50,7 +50,7 @@ util.inherits(Board, ElementContainer);
 
 module.exports = Board;
 
-},{"./element":3,"./tile":5,"util":11}],3:[function(require,module,exports){
+},{"./element-container":3,"./tile":5,"util":11}],3:[function(require,module,exports){
 'use strict';
 
 var EventEmitter = require('events').EventEmitter;
@@ -315,7 +315,7 @@ module.exports.isDomEvent = function(type) {
 },{}],5:[function(require,module,exports){
 'use strict';
 
-var ElementContainer = require('./element');
+var ElementContainer = require('./element-container');
 var util = require('util');
 
 /**
@@ -331,7 +331,7 @@ util.inherits(Tile, ElementContainer);
 
 module.exports = Tile;
 
-},{"./element":3,"util":11}],6:[function(require,module,exports){
+},{"./element-container":3,"util":11}],6:[function(require,module,exports){
 'use strict';
 
 var util = {};
