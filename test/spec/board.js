@@ -22,6 +22,15 @@ describe('Board', function() {
     expect(board.attr('id')).toBe('board');
   });
 
+
+  describe('.tiles', function() {
+    it('should return flattened collection via all property', function() {
+      var board = new Board(3,3),
+          tiles = board.tiles.all;
+      expect(tiles.length).toBe(9);
+    });
+  });
+
   describe('.appendTo()', function() {
     it('should append a board structure to the given element', function() {
       var target = document.createElement('div'),
