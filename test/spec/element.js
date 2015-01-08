@@ -1,12 +1,8 @@
-var mixin = Boards.Element,
-    util = Boards.util;
+var ElementContainer = Boards.ElementContainer;
 
-describe('Element', function() {
+describe('ElementContainer', function() {
   beforeEach(function() {
-    this.board = {
-      element: document.createElement('div')
-    };
-    this.board = util.mixin(this.board, mixin);
+    this.board = new ElementContainer(document.createElement('div'));
   });
 
   describe('.addClass()', function() {
