@@ -21,4 +21,21 @@ describe('Board', function() {
     board.attr('id', 'board');
     expect(board.attr('id')).toBe('board');
   });
+
+  describe('.appendTo()', function() {
+    it('should append a board structure to the given element', function() {
+      var target = document.createElement('div'),
+          board = new Board(2,3);
+
+      board.appendTo(target);
+
+      var rows = target.getElementsByClassName('tile-row');
+      expect(rows.length).toBe(2);
+
+      for(var i = 0; i < rows.length; i++) {
+        var tiles = rows[i].getElementsByClassName('tile');
+        expect(tiles.length).toBe(3);
+      }
+    });
+  });
 });
