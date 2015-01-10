@@ -1,4 +1,4 @@
-var board = new Boards.Board(15, 15);
+var board = new Boards.create(15, 15);
 board.appendTo(document.getElementById('wrapper'));
 
 var all = board.tiles.all,
