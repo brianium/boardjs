@@ -6,9 +6,9 @@ var all = board.tiles.all,
 
 for (var i = 0; i < length; i++) {
   all[i].on('mouseover', function() {
-	  this.classList.add('is-hovered');
-	});
-	all[i].on('mouseleave', function() {
-	  this.classList.remove('is-hovered');
-	});
+    this.classList.add('is-hovered');
+  });
+  all[i].on('mouseleave', function() {
+    this.classList.remove('is-hovered');
+  });
 }
