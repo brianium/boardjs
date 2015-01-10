@@ -7,6 +7,13 @@ describe('Board', function() {
       expect(board.element.tagName).toBe('DIV');
     });
 
+    it('should set the class to the boardClass option', function() {
+      var board = new Board(1, 1, {
+        boardClass: 'rad-board'
+      });
+      expect(board.hasClass('rad-board')).toBe(true);
+    });
+
     it('should create a board with tiles', function() {
       var board = new Board(2, 2);
       expect(board.tiles[0][0]).not.toBeUndefined();
