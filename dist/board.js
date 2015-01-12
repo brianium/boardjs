@@ -228,6 +228,7 @@ ElementContainer.prototype.on = function(type, listener, useCapture) {
     return EventEmitter.prototype.on.call(this, type, listener);
   }
 
+  this.element.container = this;
   this.element.addEventListener(type, listener, !!useCapture);
   return this;
 };

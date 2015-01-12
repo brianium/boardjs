@@ -24,6 +24,15 @@ describe('Tile', function() {
         expect(this.tile.element.style.color).toBe('red');
       });
 
+      it('should register a container property on the element', function() {
+        var container = null;
+        this.tile.on('click', function() {
+          container = this.container;
+        });
+        this.tile.element.dispatchEvent(this.evt);
+        expect(container).toBe(this.tile);
+      });
+
       it('should allow non dom events', function() {
         var val = null;
         this.tile.on('custom', function(v) {
