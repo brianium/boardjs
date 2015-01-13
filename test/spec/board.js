@@ -1,4 +1,4 @@
-var Board = Boards.Board;
+var Board = require('../../lib/board');
 
 describe('Board', function() {
   describe('construction', function() {

@@ -1,17 +1,18 @@
-var lib = '../dist/board.js',
-    tests = 'spec/*.js';
-
 module.exports = function(config) {
   config.set({
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'browserify'],
 
-    files: [lib, tests],
+    files: ['spec/*.js'],
 
     reporters: ['dots'],
 
     singleRun: true,
     autoWatch: false,
+
+    preprocessors: {
+      'spec/*.js': ['browserify']
+    },
 
     browsers: ['PhantomJS'],
   });

@@ -1,4 +1,4 @@
-var Tile = Boards.Tile;
+var Tile = require('../../lib/tile');
 
 describe('Tile', function() {
   beforeEach(function() {
